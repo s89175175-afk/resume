@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Pizza Ordering Site</title>
+
+<style>
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+
+/* NAVBAR */
+.navbar{
+  background:#333;color:#fff;
+  display:flex;justify-content:space-between;
+  padding:15px 20px;align-items:center;
+}
+.navbar a{color:white;text-decoration:none;margin-left:15px}
+.logo{font-size:24px;font-weight:bold}
+
+/* HERO */
+.hero{
+  background:#222 url('banner.jpg') center/cover no-repeat;
+  padding:100px 20px;text-align:center;color:white;
+}
+.btn{
+  display:inline-block;padding:10px 20px;
+  background:#e63946;color:#fff;border-radius:5px;
+  text-decoration:none;margin-top:15px;
+}
+
+/* MENU */
+.menu-section{padding:40px 20px}
+.menu-section h2{text-align:center;margin-bottom:30px}
+
+.food-grid{
+  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;
+}
+
+.food-item{
+  width:250px;background:#f2f2f2;padding:15px;
+  border-radius:10px;text-align:center;
+  box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+.food-item img{width:100%;border-radius:5px}
+.price{color:#e63946;font-size:20px;font-weight:bold}
+
+.add-btn{
+  margin-top:10px;padding:8px 15px;border:none;
+  background:#1d3557;color:white;cursor:pointer;
+  border-radius:5px;
+}
+
+/* CART */
+.cart-box{
+  background:#fff;padding:20px;border-radius:10px;
+  width:90%;max-width:500px;margin:30px auto;
+  box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+.cart-box h2{text-align:center;margin-bottom:10px}
+.cart-items{margin:10px 0;font-size:18px}
+.total{font-size:22px;font-weight:bold;text-align:center;margin-top:10px}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:20px;background:#333;color:#fff;margin-top:20px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">My Pizza</div>
+  <nav>
+    <a href="#menu">Menu</a>
+    <a href="#cart">Cart</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Welcome to My Pizza!</h1>
+  <p>Delicious pizzas delivered to your home</p>
+  <a href="#menu" class="btn">Order Now</a>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="menu-section">
+  <h2>Our Menu</h2>
+
+  <div class="food-grid">
+    
+    <!-- ITEM 1 -->
+    <div class="food-item">
+      <img src="pizza1.jpg" alt="">
+      <h3>Margherita Pizza</h3>
+      <p>Classic Cheese Pizza</p>
+      <div class="price">₹ 499</div>
+      <button class="add-btn" onclick="addToCart('Margherita Pizza',499)">Add to Cart</button>
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="food-item">
+      <img src="pizza2.jpg" alt="">
+      <h3>Pepperoni Pizza</h3>
+      <p>Pepperoni & Cheese</p>
+      <div class="price">₹ 599</div>
+      <button class="add-btn" onclick="addToCart('Pepperoni Pizza',599)">Add to Cart</button>
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="food-item">
+      <img src="pizza3.jpg" alt="">
+      <h3>Farm House Pizza</h3>
+      <p>Veg loaded pizza</p>
+      <div class="price">₹ 699</div>
+      <button class="add-btn" onclick="addToCart('Farm House Pizza',699)">Add to Cart</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CART -->
+<section id="cart">
+  <div class="cart-box">
+    <h2>Your Cart</h2>
+    <div class="cart-items" id="cartItems">Cart is empty</div>
+    <div class="total" id="totalPrice">Total: ₹ 0</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2025 My Pizza Website
+</footer>
+
+
+<!-- JAVASCRIPT -->
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(name, price){
+  cart.push({name, price});
+  total += price;
+
+  updateCart();
+}
+
+function updateCart(){
+  let text = "";
+  cart.forEach((item, index)=>{
+    text += (index+1) + ". " + item.name + " - ₹ " + item.price + "<br>";
+  });
+
+  document.getElementById("cartItems").innerHTML = text || "Cart is empty";
+  document.getElementById("totalPrice").innerHTML = "Total: ₹ " + total;
+}
+</script>
+
+</body>
+</html>
