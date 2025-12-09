@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Neon Portfolio — Sunil Yadav</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome for social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root{
+    --bg:#0b0f16;
+    --card:#0f1720;
+    --muted:#9aa0b2;
+    --neon:#05e8ff;
+    --neon-2:#00ffd1;
+    --glass: rgba(255,255,255,0.03);
+    --radius:22px;
+  }
+
+  /* Reset + basics */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:
+      radial-gradient(1000px 200px at 50% 100%, rgba(5,232,255,0.06), transparent 10%),
+      var(--bg);
+    color:#eef2f7;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.5;
+  }
+
+  a{color:inherit}
+  .container{width:min(1200px,94%);margin:0 auto;padding:28px 0}
+
+  /* NAV */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:10px 0;
+  }
+  .brand{font-weight:800;letter-spacing:0.2px}
+  nav ul{display:flex;gap:20px;list-style:none;padding:0;margin:0}
+  nav a{
+    text-decoration:none;color:var(--muted);font-weight:600;padding:8px 10px;border-radius:8px;
+    transition:color .25s, transform .2s;
+  }
+  nav a:hover{color:var(--neon)}
+  nav a.active{color:var(--neon);position:relative}
+  nav a.active::after{
+    content:"";position:absolute;left:50%;transform:translateX(-50%);
+    bottom:-8px;width:36px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--neon),var(--neon-2));
+    box-shadow:0 6px 22px rgba(0,200,255,0.12);
+  }
+
+  /* HERO (card) */
+  .hero{
+    display:flex;gap:40px;align-items:center;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:48px;border-radius:var(--radius);margin-top:18px;
+    box-shadow: 0 10px 40px rgba(1,9,18,0.6), 0 0 60px rgba(5,232,255,0.03);
+    position:relative;overflow:visible;
+  }
+
+  /* Neon border behind hero (animated) */
+  .hero::before{
+    content:"";
+    position:absolute;right:-12%;bottom:-12%;
+    width:360px;height:360px;border-radius:40px;
+    background:linear-gradient(180deg, rgba(5,232,255,0.06), rgba(0,255,209,0.02));
+    filter:blur(36px);
+    transform:rotate(15deg);
+    z-index:0;
+    animation: floatSlow 8s ease-in-out infinite;
+  }
+
+  .hero-left,.hero-right{width:50%;position:relative;z-index:2}
+
+  .hi{
+    display:block;color:var(--muted);font-weight:500;margin-bottom:8px;
+    opacity:0;transform:translateY(14px); /* will animate in */
+  }
+
+  .name{
+    font-size:42px;margin:0;line-height:1;
+    letter-spacing:-0.6px;opacity:0;transform:translateY(14px);
+  }
+  .role{
+    margin:12px 0 18px 0;font-weight:600;color:var(--neon);
+    font-size:18px;opacity:0;transform:translateY(14px);
+  }
+
+  .desc{color:var(--muted);max-width:640px;margin-top:10px;opacity:0;transform:translateY(14px)}
+
+  /* Buttons & socials */
+  .actions{display:flex;gap:12px;margin-top:18px;align-items:center;opacity:0;transform:translateY(14px)}
+  .btn{
+    display:inline-block;padding:10px 18px;border-radius:26px;background:linear-gradient(90deg,var(--neon),var(--neon-2));
+    color:#021018;font-weight:700;text-decoration:none;box-shadow:0 10px 30px rgba(5,232,255,0.12);
+  }
+  .socials{display:flex;gap:10px}
+  .socials a{
+    display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.02);
+    color:var(--neon);text-decoration:none;font-size:18px;border:1px solid rgba(5,232,255,0.06);
+    transition:transform .25s, box-shadow .25s;
+    position:relative;overflow:visible;
+  }
+  .socials a:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(5,232,255,0.08)}
+
+  /* floating little glow */
+  .socials a::after{
+    content:"";position:absolute;inset: -8px;z-index:-1;border-radius:14px;
+    background:linear-gradient(90deg, transparent 0%, rgba(5,232,255,0.06) 30%, rgba(0,255,209,0.04) 100%);
+    filter:blur(8px);opacity:0;transition:opacity .25s;
+  }
+  .socials a:hover::after{opacity:1}
+
+  /* HERO IMAGE with neon hex-ish mask */
+  .hero-card{
+    width:320px;margin-left:auto;border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(5,232,255,0.05);
+    transform:translateX(60px);opacity:0; /* animate in */
+  }
+  .photo-wrap{
+    position:relative;border-radius:14px;overflow:hidden;padding:6px;
+    background:linear-gradient(90deg,var(--neon),var(--neon-2));
+  }
+  .photo{
+    display:block;width:100%;height:420px;object-fit:cover;border-radius:8px;
+    filter:drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+  }
+
+  /* neon border pulse */
+  .photo-wrap::after{
+    content:"";position:absolute;inset:6px;border-radius:10px;pointer-events:none;
+    box-shadow:0 0 30px rgba(5,232,255,0.18), inset 0 0 28px rgba(0,255,209,0.06);
+    animation: pulseNeon 3s ease-in-out infinite;
+  }
+
+  /* SECTIONS */
+  section{margin-top:72px}
+  .section-title{
+    text-align:center;color:var(--neon);font-weight:700;font-size:28px;margin-bottom:18px;
+    letter-spacing:0.4px;
+  }
+
+  /* ABOUT card */
+  .about{
+    background:var(--card);padding:30px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    display:flex;gap:24px;align-items:center;
+  }
+  .about-left{flex:0 0 140px}
+  .avatar{
+    width:120px;height:120px;border-radius:16px;overflow:hidden;border:3px solid rgba(5,232,255,0.06);
+    background:linear-gradient(90deg,var(--neon),var(--neon-2));
+  }
+  .about-right{flex:1}
+  .about p{color:var(--muted);margin:0;line-height:1.7}
+
+  /* WORK GRID */
+  .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .work-card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.02);
+    transition:transform .35s, box-shadow .35s;
+    position:relative;overflow:hidden;
+  }
+  .work-card img{width:100%;height:160px;object-fit:cover;border-radius:10px;display:block}
+  .work-card h4{margin:12px 0 6px 0}
+  .work-card p{margin:0;color:var(--muted);font-size:14px}
+
+  /* neon border pseudo */
+  .work-card::before{
+    content:"";position:absolute;inset:0;border-radius:14px;padding:1px;
+    background:linear-gradient(90deg,transparent,transparent);
+    -webkit-mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+    -webkit-mask-composite: xor;mask-composite: exclude;
+    pointer-events:none;
+  }
+  .work-card:hover{transform:translateY(-12px);box-shadow:0 28px 80px rgba(5,232,255,0.07)}
+  .work-card:hover::before{background:linear-gradient(90deg,var(--neon),var(--neon-2));filter:blur(12px);opacity:0.95}
+
+  /* REVIEWS */
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .review{
+    background:var(--card);padding:18px;border-radius:12px;border-left:4px solid rgba(5,232,255,0.06);
+  }
+  .review h5{margin:0 0 6px 0;color:var(--neon)}
+  .review p{margin:0;color:var(--muted)}
+
+  /* FOOTER */
+  footer{text-align:center;padding:36px 0;color:var(--muted);margin-top:40px}
+
+  /* Responsive */
+  @media (max-width:980px){
+    .hero{flex-direction:column;padding:28px}
+    .hero-left,.hero-right{width:100%}
+    .work-grid,.reviews{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:640px){
+    nav ul{display:none}
+    .work-grid,.reviews{grid-template-columns:1fr}
+  }
+
+  /* Animations */
+  @keyframes slideInUp {
+    from{opacity:0;transform:translateY(18px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  @keyframes slideInLeft {
+    from{opacity:0;transform:translateX(-40px)}
+    to{opacity:1;transform:translateX(0)}
+  }
+  @keyframes slideInRight {
+    from{opacity:0;transform:translateX(60px)}
+    to{opacity:1;transform:translateX(0)}
+  }
+  @keyframes pulseNeon {
+    0%{box-shadow:0 0 12px rgba(5,232,255,0.10), inset 0 0 6px rgba(0,255,209,0.02)}
+    50%{box-shadow:0 0 30px rgba(5,232,255,0.28), inset 0 0 18px rgba(0,255,209,0.05)}
+    100%{box-shadow:0 0 12px rgba(5,232,255,0.10), inset 0 0 6px rgba(0,255,209,0.02)}
+  }
+  @keyframes floatSlow{
+    0%{transform:translateY(0) rotate(15deg)}
+    50%{transform:translateY(-12px) rotate(18deg)}
+    100%{transform:translateY(0) rotate(15deg)}
+  }
+
+  /* helper hidden initial state for reveal */
+  .reveal{opacity:0;transform:translateY(20px);transition:all .7s cubic-bezier(.2,.9,.2,1)}
+  .reveal.visible{opacity:1;transform:none}
+
+  /* typing caret */
+  .typing{display:inline-block;border-right:2px solid rgba(255,255,255,0.12);padding-right:6px;margin-right:4px}
+
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="container">
+  <nav>
+    <div class="brand">Portfolio.</div>
+    <img src="i pnone.jpg" alt="avatar" style="width:20%;height:20%;object-fit:cover;">
+    <ul id="navList">
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#work" class="nav-link">Work</a></li>
+      <li><a href="#reviews" class="nav-link">Reviews</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<main class="container">
+  <section id="home" class="hero" aria-label="hero section">
+    <div class="hero-left">
+      <span class="hi reveal">Hello, It's Me</span>
+      <h1 class="name reveal">Sunil <span style="color:var(--neon);">Yadav</span></h1>
+
+      <!-- typing effect: role -->
+      <div style="margin-top:6px;">
+        <span class="role reveal"><span id="typing" class="typing"></span><span id="roleStatic"></span></span>
+      </div>
+
+      <p class="desc reveal">
+        I build modern, accessible, and fast front-end experiences.
+        I enjoy turning design ideas into delightful, performant web interfaces.
+      </p>
+
+      <div class="actions">
+        <div class="socials" style="margin-left:8px;">
+          <a href="https://facebook.com" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right" style="display:flex;justify-content:flex-end;align-items:center;">
+      <div class="hero-card reveal" style="margin-left:auto;">
+        <div class="photo-wrap">
+          <!-- Replace 'k.jpg' with your actual image filename if needed -->
+          <img src="i pnone.jpg" alt="Profile photo" class="photo" onerror="this.src='https://via.placeholder.com/320x420?text=Profile'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about reveal">
+      <div class="about-left">
+        <div class="avatar">
+          <img src="i pnone.jpg" alt="avatar" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/120'">
+        </div>
+      </div>
+      <div class="about-right">
+        <h3 style="margin:0 0 8px 0">Frontend Developer & UI Enthusiast</h3>
+        <p>
+          I craft pixel-perfect UI and fast front-end performance. My toolkit includes HTML, CSS,
+          modern JavaScript, and frameworks like React. I focus on accessibility, animations,
+          and micro-interactions that delight users.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section id="work">
+    <h2 class="section-title">Sample Work</h2>
+    <div class="work-grid">
+      <article class="work-card reveal">
+        <a href="https://www.landingfolio.com/"></a>
+        <img src="landing page.avif" alt="proj 1">
+        <h4>Landing Page</h4>
+        <p>Modern marketing landing with animations and responsive design.</p>
+      </article>
+
+      <article class="work-card reveal">
+        <img src="e-commerce.avif" alt="proj 2">
+        <h4>E-commerce UI</h4>
+        <p>Product listing and checkout flow with attention to conversions.</p>
+      </article>
+
+      <article class="work-card reveal">
+        <img src="p.jpg" alt="proj 3">
+        <h4>Portfolio Website</h4>
+        <p>Personal brand site with custom animations & performance tuning.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= REVIEWS ================= -->
+  <section id="reviews">
+    <h2 class="section-title">Client Reviews</h2>
+    <div class="reviews">
+      <div class="review reveal">
+        <h5>Rahul Sharma</h5>
+        <p>“Fast, communicative and delivered exactly what we needed. Highly recommended!”</p>
+      </div>
+      <div class="review reveal">
+        <h5>Aditi Verma</h5>
+        <p>“Amazing attention to detail — the UI and subtle animations took the product up a notch.”</p>
+      </div>
+      <div class="review reveal">
+        <h5>Mohit Gupta</h5>
+        <p>“Professional and dependable developer. Great to work with on tight deadlines.”</p>
+      </div>
+      <div class="review reveal">
+        <h5>Vikash Choudary/h5>
+        <p>“Fast, communicative and delivered exactly what we needed. Highly recommended!”</p>
+      </div>
+       <div class="review reveal">
+        <h5>Ajay Sharma</h5>
+        <p>“Fast, communicative and delivered exactly what we needed. Highly recommended!”</p>
+      </div>
+        <div class="review reveal">
+        <h5>Surjeet Kumar </h5>
+        <p>“Fast, communicative and delivered exactly what we needed. Highly recommended!”</p>
+      </div>
+    </div>
+  
+  </section>
+
+  <!-- ================= CONTACT / FOOTER ================= -->
+  <section id="contact" style="margin-top:60px;">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="about reveal" style="align-items:flex-start;flex-direction:column;">
+      <p style="max-width:760px;color:var(--muted)">
+        Interested in working together? Send me an email at
+        <a href="mailto:hello@example.com" style="color:var(--neon)">s89175175@gmail.com</a>
+        or connect on instagram.
+      </p>
+      <div style="margin-top:18px;">
+        <a class="btn" href="#" id="hireBtn">Let's Talk</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> John Kendric • Crafted with care.
+  </footer>
+</main>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+/* --------------------------
+  Utility: smooth scroll for anchor clicks
+--------------------------- */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const href = a.getAttribute('href');
+    if(!href || href === '#') return;
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if(el){
+      el.scrollIntoView({behavior:'smooth',block:'start'});
+      history.replaceState(null,null,href);
+    }
+  });
+});
+
+/* --------------------------
+  Typing effect for role line
+--------------------------- */
+const roles = ["Frontend Developer", "UI / UX Designer", "React Enthusiast", "Animation Lover"];
+let rIndex = 0, cIndex = 0;
+const typingEl = document.getElementById('typing');
+const roleStatic = document.getElementById('roleStatic');
+
+function typeRole(){
+  const text = roles[rIndex];
+  if(cIndex <= text.length){
+    typingEl.textContent = text.slice(0,cIndex);
+    cIndex++;
+    setTimeout(typeRole, 80);
+  } else {
+    // show static compliment for a short time then delete
+    setTimeout(()=>eraseRole(), 1100);
+  }
+}
+function eraseRole(){
+  const text = roles[rIndex];
+  if(cIndex >= 0){
+    typingEl.textContent = text.slice(0,cIndex);
+    cIndex--;
+    setTimeout(eraseRole, 30);
+  } else {
+    rIndex = (rIndex + 1) % roles.length;
+    setTimeout(typeRole, 200);
+  }
+}
+typeRole();
+
+/* --------------------------
+  Intersection Observer: reveal on scroll
+  also used to animate hero pieces sequentially
+--------------------------- */
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      // staggered animation delays for children in hero
+      if(entry.target.closest('.hero')){
+        // reveal hero children with small delays
+        const children = [".hi",".name",".role",".desc",".actions",".hero-card"];
+        children.forEach((sel,i)=>{
+          const el = document.querySelector(sel);
+          if(el){
+            el.style.animation = 'none';
+            setTimeout(()=>{
+              el.style.animation = 'none';
+              el.style.opacity = 1;
+              el.style.transform = 'none';
+              el.style.transition = 'all .6s cubic-bezier(.2,.9,.2,1)';
+            }, 120 * (i+1));
+          }
+        });
+      }
+      // unobserve if you don't want repeated animation
+      obs.unobserve(entry.target);
+    }
+  });
+},{
+  threshold: 0.18
+});
+reveals.forEach(r=>obs.observe(r));
+
+/* --------------------------
+  Nav active link by scroll position
+--------------------------- */
+const sections = document.querySelectorAll('main section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const navObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navLinks.forEach(a=>{
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+},{threshold:0.45});
+
+sections.forEach(s=>navObserver.observe(s));
+
+/* --------------------------
+  Small floating animation for subtle life
+--------------------------- */
+const floatEls = document.querySelectorAll('.socials a, .hero::before');
+floatEls.forEach((el,i)=>{
+  // apply random delays via inline style for variation
+  el.style.willChange = 'transform';
+});
+
+/* --------------------------
+  Small DOM ready tweaks: initial hero animations
+--------------------------- */
+window.addEventListener('load', ()=>{
+  // play some entry animations for hero children ourselves (in case IntersectionObserver didn't)
+  const heroHi = document.querySelector('.hi');
+  const heroName = document.querySelector('.name');
+  const heroRole = document.querySelector('.role');
+  const heroDesc = document.querySelector('.desc');
+  const heroActions = document.querySelector('.actions');
+  const heroCard = document.querySelector('.hero-card');
+
+  // staggered animation: slide in left for text, slide in right for image
+  setTimeout(()=>{ heroHi.style.animation = 'slideInLeft .6s cubic-bezier(.2,.9,.2,1) forwards'; }, 120);
+  setTimeout(()=>{ heroName.style.animation = 'slideInLeft .6s cubic-bezier(.2,.9,.2,1) forwards'; }, 240);
+  setTimeout(()=>{ heroRole.style.animation = 'slideInLeft .6s cubic-bezier(.2,.9,.2,1) forwards'; }, 360);
+  setTimeout(()=>{ heroDesc.style.animation = 'slideInLeft .6s cubic-bezier(.2,.9,.2,1) forwards'; }, 480);
+  setTimeout(()=>{ heroActions.style.animation = 'slideInLeft .6s cubic-bezier(.2,.9,.2,1) forwards'; }, 600);
+  setTimeout(()=>{ heroCard.style.animation = 'slideInRight .9s cubic-bezier(.2,.9,.2,1) forwards'; }, 420);
+
+  // footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+});
+
+/* --------------------------
+  Small accessibility / keyboard: focus outlines for keyboard users
+--------------------------- */
+document.body.addEventListener('keydown', function(e){
+  if(e.key === 'Tab'){
+    document.documentElement.style.scrollBehavior = 'smooth';
+  }
+});
+
+/* --------------------------
+  Extra: simple CV / contact button handlers
+--------------------------- */
+document.getElementById('downloadCv').addEventListener('click',(e)=>{
+  e.preventDefault();
+  // placeholder for download; you can replace with your PDF path
+  const link = document.createElement('a');
+  link.href = 'resume.pdf'; // replace with actual CV file if present
+  link.download = 'John-Kendric-CV.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+document.getElementById('hireBtn').addEventListener('click',(e)=>{
+  e.preventDefault();
+  window.location.href = 'mailto:hello@example.com';
+});
+
+/* --------------------------
+  Helpful: fallback reveal for smaller viewports
+--------------------------- */
+if(window.innerWidth < 600){
+  reveals.forEach(r=>r.classList.add('visible'));
+}
+
+</script>
+</body>
+</html>
